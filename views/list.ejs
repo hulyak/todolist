@@ -8,10 +8,14 @@
 </head>
 
 <body>
+  <!-- running code inside ejs template -->
   <!-- ejs variable -->
-  <h1>It's a <%= kindOfDay %> !</h1>
-
-
+  <!--Scriptlet tag, for control-flow, no output -->
+  <% if(kindOfDay == "Saturday" || kindOfDay == "Sunday"){ %>
+  <h1 style="color:purple"><%= kindOfDay %> ToDo List!</h1>
+  <% }else{ %>
+  <h1 style="color:blue"><%= kindOfDay %> ToDo List!</h1>
+  <% } %>
 </body>
 
 </html>
