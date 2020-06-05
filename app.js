@@ -11,22 +11,36 @@ app.set('view engine', 'ejs');
 app.get("/", (req, res) => {
   const today = new Date();
   const currentDay = today.getDay();
-  // if the day is Saturday or Sunday 
-  // sunday - saturday: 0-6
-  if (currentDay === 6 || currentDay === 0) {
-    // multiple writes;  only one send
-    res.write("<h1>weekend!</h1>");
-    res.write("<h1>It's the weekend</h1>");
-    res.send();
-  } else {
-    // res.write("<h1>It is not the weekend!</h1>")
-    // res.write("<p>Boo!I have to work!</p>");
-    // res.send();
-    // not so great, you need to create individual files
-    //template  ejs - embedded js templating
-    res.sendFile(__dirname + "/index.html");
+  var day = "";
+  // day has number value
+  switch (currentDay) {
+    case 0:
+      day = "Sunday";
+      break;
+    case 1:
+      day = "Monday";
+      break;
+    case 2:
+      day = "Tuesday";
+      break;
+    case 3:
+      day = "Wednesday";
+      break;
+    case 4:
+      day = "Thursday";
+      break;
+    case 5:
+      day = "Friday";
+      break;
+    case 6:
+      day = "Saturday";
+      break;
+    default:
+      console.log("Error: current day is equal to " + currentDay);
   }
-
+  res.render("list", {
+    kindOfDay: day
+  });
 });
 
 app.listen(3000, () => {
