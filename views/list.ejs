@@ -5,28 +5,37 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Todo List</title>
-  <link rel="stylesheet" href="../css/styles.css">
+  <link rel="stylesheet" href="css/styles.css">
 </head>
 
 <body>
+  <div class="box" id="heading">
   <h1><%= kindOfDay%></h1>
-  <ul>
-    <!-- <li>Buy food</li>
+</div>
+<div class="box">
+     <!-- <li>Buy food</li>
     <li>Cook Food</li>
     <li>Eat Food</li> -->
     <!-- add new items with post request-->
     <!-- this causes to store different items inside only one list item -->
     <!-- <li>< newListItem ></li> -->
     <!-- loop through newListItems array, render new li for each list item -->
-    <% for(let i = 0 ; i< newListItems.length ; i++){ %>
-    <li><%= newListItems[i] %></li>
-    <% }%>
-  </ul>
-  <!-- action home/root route -->
-  <form class="" action="/" method="post">
-    <input type="text" name="newItem">
-    <button type="submit" name="button" value="SUBMIT">Add</button>
+  <% for(let i = 0 ; i< newListItems.length ; i++){ %>
+  <div class="item">
+    <input type="checkbox">
+    <p><%= newListItems[i] %></p>
+  </div>
+  <% }%>
+
+   <!-- action home/root route -->
+   <form class="item" action="/" method="post">
+    <input type="text" name="newItem" placeholder="New item" autocomplete="off">
+    <button type="submit" name="button">+</button>
   </form>
+</div>
+
+
+ 
 
 </body>
 

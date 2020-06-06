@@ -4,11 +4,16 @@ const express = require("express");
 const bodyParser = require("body-parser");
 
 const app = express();
+
 //set up body parser for post method
 app.use(bodyParser.urlencoded({
   extended: true
 }));
 app.use(bodyParser.json());
+
+//serve up static files
+app.use(express.static("public"));
+
 // set up ejs as a view engine
 app.set('view engine', 'ejs');
 
