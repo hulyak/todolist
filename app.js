@@ -1,10 +1,12 @@
 // jshint esversion:6
-
 const express = require("express");
 const bodyParser = require("body-parser");
 
+//require mongoose
+const mongoose = require("mongoose");
+
 //current directory
-const date = require(__dirname + "/date.js");
+// const date = require(__dirname + "/date.js");
 
 const app = express();
 
@@ -21,20 +23,55 @@ app.use(express.static("public"));
 app.set('view engine', 'ejs');
 
 //store in the collection
-const items = ["Buy food", "Cook food", "Eat food"];
-const workItems = [];
-
-app.get("/", (req, res) => {
-
-  const day = date.getDate();
-
-  // render list.ejs file with  passing two variables one is from ejs one from app.js
-  res.render("list", {
-    listTitle: day,
-    newListItems: items
-  });
+//use mongoose instead
+// const items = ["Buy food", "Cook food", "Eat food"];
+// const workItems = [];
+//create a new db inside mongodb; connect to url where mongodb is hosted locally and name of the database(todolistDB)
+mongoose.connect("mongodb://localhost:27017/todolistDB" , {
+useUnifiedTopology: true,
+  useNewUrlParser: true
 });
 
+//create a new items schema 
+const itemsSchema ={
+  name : String  
+};
+//create a new Mongoose model based on the schema
+const Item = mongoose.model(
+  "Item", itemsSchema
+);
+//create 3 new documents
+const item1 = new Item ({
+  name : "Todo list"
+});
+const item2 = new Item ({
+  name : "Hit the + button to add a new item"
+});
+const item3 = new Item ({
+  name : "<-- Hit this to delete an item."
+});
+
+
+const defaultItems = [item1, item2, item3];
+
+Item.insertMany(defaultItems, function(err){
+  if (err) {
+    console.log(err);
+  } else {
+    console.log("Successfully saved default items to DB");
+  }
+});
+
+app.get("/", (req, res) => {
+  // const day  = date.getDate();
+  // render list.ejs file with  passing two variables one is from ejs one from app.js
+//   res.render("list", {
+//     listTitle: day,
+//     newListItems: items
+//   });
+//pass over the items that are inside items collection 
+res.render("list" , {listTitle : "Today", newListItems : items});
+});
 //item exists when user types sth
 app.post("/", (req, res) => {
   console.log(req.body); //{ newItem: 'do homework', list: 'Work' }
