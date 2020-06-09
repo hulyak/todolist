@@ -54,14 +54,6 @@ const item3 = new Item ({
 
 const defaultItems = [item1, item2, item3];
 
-Item.insertMany(defaultItems, function(err){
-  if (err) {
-    console.log(err);
-  } else {
-    console.log("Successfully saved default items to DB");
-  }
-});
-
 app.get("/", (req, res) => {
   // const day  = date.getDate();
   // render list.ejs file with  passing two variables one is from ejs one from app.js
@@ -69,9 +61,30 @@ app.get("/", (req, res) => {
 //     listTitle: day,
 //     newListItems: items
 //   });
-//pass over the items that are inside items collection 
-res.render("list" , {listTitle : "Today", newListItems : items});
+
+//find all {} condition
+//this causes to add same items for every time program starts
+//check if the items collection has empty add defaults, if not don't add to the root route
+//clear out/delete database db.dropDatabase() 
+Item.find({}, function (err, foundItems) {
+  console.log(foundItems);
+  if(foundItems.length === 0){
+    Item.insertMany(defaultItems, function(err){
+      if (err) {
+        console.log(err);
+      } else {
+        console.log("Successfully saved default items to DB");
+      }
+    });
+    //redirect root route, and go to else
+    res.redirect("/");
+  }else{
+      //pass over the items that are inside items collection 
+      res.render("list" , {listTitle : "Today", newListItems : foundItems});
+  }
 });
+});
+
 //item exists when user types sth
 app.post("/", (req, res) => {
   console.log(req.body); //{ newItem: 'do homework', list: 'Work' }

@@ -8,12 +8,20 @@
     <!-- this causes to store different items inside only one list item -->
     <!-- <li>< newListItem ></li> -->
     <!-- loop through newListItems array, render new li for each list item -->
-  <% for(let i = 0 ; i< newListItems.length ; i++){ %>
+  <!-- <% for(let i = 0 ; i< newListItems.length ; i++){ %>
   <div class="item">
     <input type="checkbox">
-    <p><%= newListItems[i] %></p>
+    <p><%= newListItems[i].name %></p>
   </div>
-  <% }%>
+  <% }%> -->
+
+  <!-- turn for loop to forEach -->
+  <% newListItems.forEach(function(item){ %>
+    <div class="item">
+      <input type="checkbox">
+      <p><%= item.name %></p>
+    </div>
+    <% }) %>
 
    <!-- action home/root route -->
    <form class="item" action="/" method="post">
