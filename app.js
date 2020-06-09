@@ -88,17 +88,26 @@ Item.find({}, function (err, foundItems) {
 //item exists when user types sth
 app.post("/", (req, res) => {
   console.log(req.body); //{ newItem: 'do homework', list: 'Work' }
-  const item = req.body.newItem;
-  if (req.body.list === "Work"){
-    workItems.push(item);
-    res.redirect("/work");
-  }else{
-  // console.log(item);
-  //render new list item
-  items.push(item);
-  //triggers get route
+  const itemName = req.body.newItem;
+  // if (req.body.list === "Work"){
+  //   workItems.push(itemName);
+  //   res.redirect("/work");
+  // }else{
+  // console.log(itemName);
+  // render new list item
+  // items.push(itemName);
+  // triggers get route
+  // res.redirect("/");
+  // }
+
+  //for mongoose, create a new item document
+  const item = new Item ({
+    name : itemName
+  });
+  //save the new todo item entered by user to the db
+  item.save();
+  //show up in the page under default todos
   res.redirect("/");
-  }
 });
 
 // work todo list
