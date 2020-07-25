@@ -16,12 +16,18 @@
   <% }%> -->
 
   <!-- turn for loop to forEach -->
+  <!-- create a route for deleting items, instead of button submit use onChange event-->
+  <!-- to get the item name, use value id -->
+  <!-- newListItems array of documents -->
   <% newListItems.forEach(function(item){ %>
-    <div class="item">
-      <input type="checkbox">
-      <p><%= item.name %></p>
+    <form action="/delete" method="post" >
+      <div class="item">
+      <input type="checkbox" onChange="this.form.submit()" name="checkbox" value="<%=item._id%>"> 
+      <p><%= item.name %></p> 
     </div>
+    </form>
     <% }) %>
+
 
    <!-- action home/root route -->
    <form class="item" action="/" method="post">
