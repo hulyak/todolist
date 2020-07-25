@@ -24,6 +24,8 @@
       <div class="item">
       <input type="checkbox" onChange="this.form.submit()" name="checkbox" value="<%=item._id%>"> 
       <p><%= item.name %></p> 
+      <!-- while deleting items from custom list, we need listTitle -->
+      <input type="hidden" name="listName" value="<%= listTitle %>">
     </div>
     </form>
     <% }) %>
@@ -33,7 +35,7 @@
    <form class="item" action="/" method="post">
     <!-- refer to name attributes in req.body of post request -->
     <input type="text" name="newItem" placeholder="New item" autocomplete="off">
-    <button type="submit" name="list" value=<%= listTitle%>>+</button>
+    <button type="submit" name="list" value=<%= listTitle %>>+</button>
   </form>
 </div>
 <%- include("footer"); -%>

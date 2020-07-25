@@ -129,12 +129,27 @@ app.post('/', (req, res) => {
 //delete todos with mongoose findByIdAndRemove() add callback
 app.post('/delete', function(req, res) {
   const checkedItemId = req.body.checkbox;
-  Item.findByIdAndRemove(checkedItemId, function(err) {
-    if (!err) {
-      console.log('Successfully deleted checked item.');
-      res.redirect('/');
-    }
-  });
+  const listName = req.body.listName;
+
+  if (listName === 'Today') {
+    Item.findByIdAndRemove(checkedItemId, function(err) {
+      if (!err) {
+        console.log('Successfully deleted checked item.');
+        res.redirect('/');
+      }
+    });
+  } else {
+    //custom list
+    List.findOneAndUpdate(
+      { name: listName },
+      { $pull: { items: { _id: checkedItemId } } }, //from items array
+      function(err, foundList) {
+        if (!err) {
+          res.redirect('/' + listName);
+        }
+      }
+    );
+  }
 });
 
 // work todo list
