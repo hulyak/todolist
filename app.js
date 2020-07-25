@@ -96,8 +96,8 @@ app.get('/', (req, res) => {
 
 //item exists when user types sth
 app.post('/', (req, res) => {
-  console.log(req.body); //{ newItem: 'do homework', list: 'Work' }
   const itemName = req.body.newItem;
+  const listName = req.body.list;
   // if (req.body.list === "Work"){
   //   workItems.push(itemName);
   //   res.redirect("/work");
@@ -113,10 +113,17 @@ app.post('/', (req, res) => {
   const item = new Item({
     name: itemName,
   });
-  //save the new todo item entered by user to the db
-  item.save();
-  //show up in the page under default todos
-  res.redirect('/');
+  if (listName === 'Today') {
+    item.save(); //save the new todo item entered by user to the db
+    res.redirect('/'); //show up in the page under default todos
+  } else {
+    //customlist
+    List.findOne({ name: listName }, function(err, foundList) {
+      foundList.items.push(item);
+      foundList.save();
+      res.redirect('/' + listName); //direct the user's route
+    });
+  }
 });
 
 //delete todos with mongoose findByIdAndRemove() add callback
