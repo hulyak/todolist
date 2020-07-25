@@ -29,7 +29,8 @@ app.set('view engine', 'ejs');
 // const items = ["Buy food", "Cook food", "Eat food"];
 // const workItems = [];
 //create a new db inside mongodb; connect to url where mongodb is hosted locally and name of the database(todolistDB)
-mongoose.connect('mongodb://localhost:27017/todolistDB', {
+//mongodb://localhost:27017
+mongoose.connect('mongodb+srv://admin:test123@cluster0.galgf.mongodb.net/todolistDB', {
   useUnifiedTopology: true,
   useNewUrlParser: true,
 });
@@ -192,6 +193,12 @@ app.post('/work', (req, res) => {
 //   res.render('about');
 // });
 
-app.listen(3000, () => {
-  console.log('Server started on port 3000');
+
+let port = process.env.PORT;
+if (port == null || port == "") {
+  port = 3000;
+}
+
+app.listen(port, () => {
+  console.log('Server has started');
 });
