@@ -1,7 +1,7 @@
 // jshint esversion:6
 const express = require('express');
 const bodyParser = require('body-parser');
-
+const _ = require("lodash");
 //require mongoose
 const mongoose = require('mongoose');
 
@@ -159,7 +159,7 @@ app.post('/delete', function(req, res) {
 
 //dynamic route parameters with express
 app.get('/:customListName', function(req, res) {
-  const customListName = req.params.customListName;
+  const customListName = _.capitalize(req.params.customListName); //lodash
   List.findOne({ name: customListName }, function(err, foundList) {
     if (!err) {
       if (!foundList) {
